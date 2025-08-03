@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LRSAC — Learning, Research, Statistics, and Coding</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="LRSAC — The most complete, student-friendly guide for research (IMRAD), statistics (regression, hypothesis), and coding (web apps, data science). Beginner to pro, with explanations and real examples!">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Unica+One&display=swap" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary-dark: #232526;
+      --secondary-dark: #181a1d;
+      --gold: #c8a96b;
+      --ap-blue: #233a5a;
+      --silver: #e5e5e5;
+      --tapisserie: repeating-linear-gradient(135deg, #26292f 0px, #232526 3px, #232526 14px, #181a1d 17px);
+      --shadow: 0 8px 32px 0 #0005, 0 1.5px 10px #0002 inset;
+      --transition: 0.35s cubic-bezier(.7,.3,0,1);
+      --gold-glow: 0 0 12px #d6c1a1cc, 0 0 2px #d6c1a1;
+    }
+    html {scroll-behavior:smooth;}
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--secondary-dark);
+      color: var(--silver);
+      min-height: 100vh;
+      background-image: var(--tapisserie);
+      background-size: 160px 160px;
+      transition: background 0.6s, color 0.6s;
+    }
+    header {
+      background: var(--primary-dark);
+      box-shadow: 0 2px 18px 0 #0005;
+      padding: 1.2rem 1.8rem 1rem 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0; z-index: 100;
+      border-bottom: 2.5px solid var(--gold);
+      gap: 1.2rem;
+      transition: background 0.6s;
+    }
+    .logoarea {
+      display: flex; align-items: center; gap: 1.1rem;
+    }
+    .logoimg {
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .brand {
+      font-family: 'Unica One', serif;
+      font-size: 2.2rem;
+      letter-spacing: 2.5px;
+      color: var(--gold);
+      text-shadow: var(--gold-glow);
+      user-select: none;
+    }
+    .burger {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 101;
+      background: var(--primary-dark);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #0002,0 0.5px 1px #c8a96b55 inset;
+      border: 1px solid #d6c1a166;
+      transition: background 0.25s;
+    }
+    .burger:focus-visible {outline: 2.5px solid var(--gold);}
+    .burger span {
+      background: var(--gold);
+      border-radius: 3px;
+      margin: 4px 0;
+      height: 5px;
+      width: 100%;
+      display: block;
+      transition: all var(--transition);
+      box-shadow: 0 1px 2px #ffeeba77;
+    }
+    .nav-menu {
+      position: fixed;
+      top: 0; right: 0;
+      width: 300px;
+      height: 100vh;
+      background: var(--primary-dark);
+      box-shadow: -8px 0 32px 0 #0007;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 5.2rem 2.2rem 2.2rem 2.2rem;
+      transform: translateX(120%);
+      transition: transform var(--transition), background 0.6s;
+      z-index: 100;
+      border-left: 2.5px solid var(--gold);
+    }
+    .nav-menu.open {transform: translateX(0%);}
+    .nav-link {
+      font-size: 1.28rem;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      padding: 0.9rem 0 0.5rem 0;
+      border-bottom: 1px solid #4445;
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.3s, background 0.25s;
+      border-radius: 7px;
+      display: block;
+      outline: none;
+    }
+    .nav-link:focus-visible {background: #23252690;}
+    .nav-link:hover, .nav-link.active {
+      color: #fff;
+      background: linear-gradient(90deg,var(--gold)15%,#23252600 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      text-shadow: 0 0 6px #f3e6bb,0 0 1px #a58a55;
+    }
+    main {
+      max-width: 1020px;
+      margin: 2.4rem auto 2rem auto;
+      padding: 2rem 2.5rem;
+      background: #21262aee;
+      border-radius: 2.2rem;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--gold);
+      min-height: 75vh;
+      transition: background 0.6s, color 0.6s;
+      position: relative;
+      overflow: hidden;
+    }
+    main::before, main::after {
+      content: ""; position: absolute; z-index:10;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #e4d3a5bb; border:2.7px solid #b89e63;
+      box-shadow: 0 0 6px #ad894a99;
+    }
+    main::before { top: 16px; left: 18px;}
+    main::after { bottom: 18px; right: 22px;}
+    .section {
+      display: none;
+      opacity: 0;
+      animation: fadein 0.9s cubic-bezier(.77,0,.18,1) forwards;
+      transition: opacity 0.45s;
+    }
+    .section.active {
+      display: block; opacity: 1;
+    }
+    h2 {
+      font-family: 'Unica One', serif;
+      color: var(--gold);
+      font-size: 2.25rem;
+      margin: 1.1rem 0 0.7rem 0;
+      letter-spacing: 2.2px;
+      text-shadow: var(--gold-glow);
+    }
+    h3 {
+      color: #f5d692;
+      font-size: 1.23rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      letter-spacing: 0.6px;
+      text-shadow: 0 0 3px #a58a55cc;
+    }
+    /* Gold Arrow Bullets for All Unordered Lists */
+    ul {
+      list-style: none;
+      padding-left: 1.2em;
+      margin-left: 0.6em;
+    }
+    ul li {
+      position: relative;
+      margin-bottom: 0.5em;
+      padding-left: 1.2em;
+    }
+    ul li::before {
+      content: "→";
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 1.11em;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 0.08em;
+    }
+    ol, ul ul, ul ol {
+      margin-left: 1.3rem;
+      font-size: 1.11rem;
+      line-height: 1.57;
+      padding-left: 0;
+    }
+    a {color:var(--gold); text-decoration:underline;transition: color 0.15s;}
+    a:hover {color:#fff; text-shadow: 0 0 7px #fff8e2;}
+    .step, .tip {
+      background: #181b20e0;
+      border-left: 5px solid var(--gold);
+      padding: 1.13rem 1.4rem;
+      border-radius: 0.85rem;
+      margin: 1.17rem 0;
+      box-shadow: 0 2px 14px #0002,0 0 2px #c8a96b40;
+      font-size: 1.08rem;
+    }
+    .tip {border-left: 5px solid #e3d07f;}
+    .cardbox {
+      background: #22282e;
+      border-radius: 1.1rem;
+      border:1.5px solid #e6d59e88;
+      box-shadow: 0 2px 18px #0004,0 0 3px #ad894a22;
+      margin: 1.3rem 0;
+      padding: 1.25rem 1.2rem;
+    }
+    .gold {color:var(--gold);}
+    .center {text-align:center;}
+    .about-contact {
+      margin-top: 1.7rem;
+      font-size: 1.02rem;
+      color: #c2b9a2;
+      border-top: 1px dashed #e6d59e36;
+      padding-top: 1rem;
+      text-align: center;
+    }
+    footer {
+      background: #191a1d;
+      color: #f0e7c2;
+      text-align: center;
+      font-size: 1.02rem;
+      padding: 1.1rem 0 1.7rem 0;
+      border-top: 1.7px solid #bda66f;
+      margin-top: 1.8rem;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 950px) {main{padding: 1rem 0.5rem;}}
+    @media (max-width: 650px) {
+      main {margin: 1.2rem 0.2rem; border-radius: 1rem;}
+      header {padding: 0.8rem 0.7rem;}
+      .logoimg {width: 34px; height: 34px;font-size:1.2rem;}
+      .brand {font-size:1.15rem;}
+      .nav-menu {width:100vw; border-left: none;}
+    }
+    @media (max-width: 420px) {main{margin:0;}}
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(34px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    table {
+      background: #222;
+      color: #fff;
+      border-collapse: collapse;
+      font-size: 1rem;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+    table th, table td {
+      border: 1px solid #c8a96b;
+      padding: 0.5em 1em;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logoarea">
+      <span class="logoimg" title="LRSAC">
+        <svg width="48" height="48" viewBox="0 0 64 64">
+          <rect width="64" height="64" rx="16" fill="#C8A96B"/>
+          <text x="50%" y="52%" text-anchor="middle" fill="#222" font-size="22" font-family="Unica One,Arial,sans-serif" font-weight="700" dy=".3em">LR</text>
+          <text x="50%" y="75%" text-anchor="middle" fill="#222" font-size="13" font-family="Unica One,Arial,sans-serif" font-weight="600" dy=".3em">SAC</text>
+        </svg>
+      </span>
+      <span class="brand">LRSAC</span>
+    </div>
+    <div class="burger" id="burger" tabindex="0" aria-label="Toggle navigation" role="button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
+      <a href="#" class="nav-link active" data-tab="home">🏠 Home</a>
+      <a href="#" class="nav-link" data-tab="learning">📚 Learning</a>
+      <a href="#" class="nav-link" data-tab="research">🔎 Research</a>
+      <a href="#" class="nav-link" data-tab="statistics">📊 Statistics</a>
+      <a href="#" class="nav-link" data-tab="coding">💻 Coding</a>
+    </nav>
+  </header>
+  <main>
+    <!-- HOME -->
+    <section class="section active" id="home">
+      <h2>Welcome to <span class="gold">LRSAC</span></h2>
+      <div class="step">
+        <b>The all-in-one student guide for Learning, Research, Statistics, and Coding — start from scratch, finish like a pro!</b>
+        <ul>
+          <li>Switch tabs above for full step-by-step guides, real examples, and detailed explanations for every topic.</li>
+          <li>Every section is packed with info, links, and practical samples — zero experience required.</li>
+        </ul>
+      </div>
+      <div class="tip">
+        <b>Bookmark this site!</b> You’ll never need to Google “how do I write a research paper” or “how do I start coding” again.
+      </div>
+    </section>
+    <!-- LEARNING -->
+    <section class="section" id="learning">
+      <h2>📚 Learning: How to Master Any Subject</h2>
+      <div class="cardbox">
+        <h3>How to Learn Effectively (with Examples)</h3>
+        <ol>
+          <li>
+            <b>Set Clear Goals</b>
+            <ul>
+              <li>Decide exactly what you want to learn (e.g., “I want to understand basic statistics in 2 weeks”).</li>
+              <li>Example: “By Friday, I will finish the first two modules of Python coding.”</li>
+            </ul>
+          </li>
+          <li>
+            <b>Make a Study Plan</b>
+            <ul>
+              <li>Break big tasks into smaller chunks.</li>
+              <li>Plan specific times: “Every day at 7 PM, I will review for 30 minutes.”</li>
+              <li>Use a simple planner or Google Calendar.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Use Active Learning</b>
+            <ul>
+              <li>Take notes in your own words, not just copy-paste.</li>
+              <li>Teach what you learned to someone else, even just by talking out loud.</li>
+              <li>Practice by doing — answer practice questions, code along with tutorials, or try simple quizzes.</li>
+              <li>Example: After reading a statistics lesson, solve 3 practice problems and explain the answers aloud.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Review Regularly</b>
+            <ul>
+              <li>After each session, quickly summarize what you learned.</li>
+              <li>Revisit topics after a few days for long-term memory.</li>
+              <li>Example: On Sunday, review all coding exercises from the past week.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Stay Motivated</b>
+            <ul>
+              <li>Reward yourself for reaching small goals — take breaks, have a snack, or share progress with a friend.</li>
+              <li>If you get stuck, ask for help online (e.g., Stack Overflow for coding, or classmates for research).</li>
+              <li>Example: “Once I finish my research outline, I’ll watch an episode of my favorite show.”</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="tip">
+          <b>More resources:</b>
+          <ul>
+            <li><a href="https://www.opencolleges.edu.au/informed/features/21-study-tips/" target="_blank">21 Study Tips (Open Colleges)</a></li>
+            <li><a href="https://www.coursera.org/articles/study-skills" target="_blank">How to Study Effectively (Coursera)</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- RESEARCH -->
+    <section class="section" id="research">
+      <h2>🔎 Research: IMRAD Format Explained</h2>
+      <div class="cardbox">
+        <h3>Step-by-Step Guide: Writing a Research Paper (IMRAD Format)</h3>
+        <ol>
+          <li>
+            <b>Introduction</b>
+            <ul>
+              <li>Purpose: Introduce your topic, explain its importance, and state your research question or hypothesis.</li>
+              <li>How to write:
+                <ul>
+                  <li>Start broad: What is your topic about?</li>
+                  <li>Why is it important or interesting? (Relate to real life or current issues.)</li>
+                  <li>What is already known? (Brief background, cite sources.)</li>
+                  <li>End with: “This study aims to...”</li>
+                </ul>
+              </li>
+              <li>
+                Example:<br>
+                “Mobile phones are used daily by students for both learning and entertainment. However, the effect of mobile phone use on academic performance is debated. This study aims to determine if increased mobile phone usage negatively affects high school students’ grades.”
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Method (Methodology)</b>
+            <ul>
+              <li>Purpose: Explain exactly how you did your study so others can repeat it.</li>
+              <li>How to write:
+                <ul>
+                  <li>Describe your participants or materials (e.g., “50 Grade 11 students from Gumaca NHS”).</li>
+                  <li>Explain your procedure: surveys, experiments, observations?</li>
+                  <li>Include your tools: questionnaires, measuring instruments, or software.</li>
+                  <li>Be clear and step-by-step.</li>
+                </ul>
+              </li>
+              <li>
+                Example:<br>
+                “This study surveyed 50 Grade 11 students from Gumaca NHS. A questionnaire asked about daily mobile phone use and average grades. Data were collected in July 2025 and analyzed for patterns.”
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Results</b>
+            <ul>
+              <li>Purpose: Present what you found, without opinion.</li>
+              <li>How to write:
+                <ul>
+                  <li>Summarize your data clearly — use tables or charts if possible.</li>
+                  <li>Mention patterns, averages, and key findings.</li>
+                  <li>Don’t explain or interpret yet — just state facts.</li>
+                </ul>
+              </li>
+              <li>
+                Example:<br>
+                “The average phone usage among students was 5 hours/day. Students using phones for more than 6 hours/day had an average grade of 82, while those under 4 hours/day averaged 88. See Table 1 for details.”
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Discussion</b>
+            <ul>
+              <li>Purpose: Explain what your results mean, connect to previous studies, suggest improvements or next steps.</li>
+              <li>How to write:
+                <ul>
+                  <li>What do your findings suggest? (e.g., “More phone use may be linked to lower grades.”)</li>
+                  <li>Are your results similar or different from other studies?</li>
+                  <li>Any limitations (things you couldn’t control)?</li>
+                  <li>What should future research do?</li>
+                </ul>
+              </li>
+              <li>
+                Example:<br>
+                “These results support the idea that heavy phone usage is associated with lower grades. This matches previous studies in other schools. However, we only surveyed one grade level. Future studies should include more schools and consider different types of phone use.”
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>References</b>
+            <ul>
+              <li>Purpose: List all sources you used (books, websites, journals).</li>
+              <li>How to write:
+                <ul>
+                  <li>Follow your teacher’s required format (APA, MLA, etc.).</li>
+                  <li>Include author, title, source, and year for each reference.</li>
+                </ul>
+              </li>
+              <li>
+                Example (APA):<br>
+                “Smith, J. (2020). The effects of technology on learning. Educational Journal, 15(2), 55-60.”
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <div class="tip">
+          <b>Working Guides for IMRAD:</b>
+          <ul>
+            <li><a href="https://writingcenter.unc.edu/tips-and-tools/scientific-reports/" target="_blank">How to Write a Scientific Report (UNC Writing Center)</a></li>
+            <li><a href="https://guides.libraries.psu.edu/researchwriting/imrad" target="_blank">Research Writing: IMRAD Structure (Penn State)</a></li>
+            <li><a href="https://writing.wisc.edu/handbook/assignments/scientific-reports/" target="_blank">Scientific Reports Overview (Wisconsin Writing Center)</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- STATISTICS -->
+    <section class="section" id="statistics">
+      <h2>📊 Statistics: Modules, Examples & Advanced Topics</h2>
+      <div class="cardbox">
+        <h3>1. What is Statistics?</h3>
+        <ul>
+          <li>Statistics is the science of collecting, organizing, analyzing, and interpreting data. It helps us understand large amounts of information by summarizing and finding patterns.</li>
+          <li>Example: In a class survey, you record each student’s favorite subject and find out which is most popular.</li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>2. Types of Data</h3>
+        <ul>
+          <li>Qualitative (Categorical): Data that describes qualities (e.g., colors, brands, names). Example: “Blue”, “Red”, “Green” (favorite color survey).</li>
+          <li>Quantitative (Numerical): Data that can be measured or counted (e.g., heights, scores, ages). Example: “150 cm”, “162 cm”, “170 cm” (students’ heights).</li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>3. Collecting & Organizing Data</h3>
+        <ol>
+          <li>Decide on your data source: survey, experiment, or observation.</li>
+          <li>Use a table or spreadsheet (Google Sheets, Excel) to record responses.</li>
+          <li>Check for errors and organize data into categories or order.</li>
+          <li>
+            Example:<br>
+            Survey: “How many hours do you study per day?”<br>
+            Table:<br>
+            <table>
+              <tr><th>Name</th><th>Hours</th></tr>
+              <tr><td>Anna</td><td>2</td></tr>
+              <tr><td>Ben</td><td>1</td></tr>
+              <tr><td>Chloe</td><td>3</td></tr>
+              <tr><td>David</td><td>2</td></tr>
+            </table>
+          </li>
+        </ol>
+      </div>
+      <div class="cardbox">
+        <h3>4. Descriptive Statistics (with Examples)</h3>
+        <ul>
+          <li>Mean (Average): Add up all numbers, then divide by how many. Example: (2+1+3+2) ÷ 4 = 2.</li>
+          <li>Median: Middle value when arranged in order. Example: For 1,2,2,3, median is (2+2)/2 = 2.</li>
+          <li>Mode: Value that appears most often. Example: In 2,1,3,2: mode is 2 (it appears twice).</li>
+          <li>Range: Highest minus lowest. Example: 3 - 1 = 2.</li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>5. Visualizing Data</h3>
+        <ul>
+          <li>Turn numbers into pictures to spot trends — use bar graphs, pie charts, or line graphs.</li>
+          <li>How to do it: Use Google Sheets or <a href="https://www.meta-chart.com/" target="_blank">Meta-Chart</a> to enter your data and choose a chart style.</li>
+          <li>Example: Plot students’ study hours as a bar graph to see which is most common.</li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>6. Probability Basics</h3>
+        <ul>
+          <li>Probability = likelihood of something happening.</li>
+          <li>Formula: \\( P(\text{event}) = \frac{\text{Number of favorable outcomes}}{\text{Total possible outcomes}} \\)</li>
+          <li>Example: What’s the chance of rolling a 4 on a die? There is 1 “4” and 6 sides: \\( P = \frac{1}{6} \\)</li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>7. Hypothesis Testing (Step-by-Step)</h3>
+        <ul>
+          <li>Hypothesis testing checks if your results are statistically significant.</li>
+          <li>Step 1: State the null hypothesis (H₀: no effect) and alternative hypothesis (H₁: there is an effect).</li>
+          <li>Step 2: Choose a significance level (usually 0.05).</li>
+          <li>Step 3: Collect data and calculate a test statistic (e.g., t-test or z-test).</li>
+          <li>Step 4: Find the p-value. If p-value &lt; significance level, reject H₀.</li>
+          <li>Example: You want to test if a new study method improves test scores. H₀: “No improvement.” H₁: “There is improvement.” After analysis, p-value = 0.03, so you reject H₀.</li>
+          <li><a href="https://www.khanacademy.org/math/statistics-probability/significance-tests-one-sample" target="_blank">Hypothesis Testing: Khan Academy Video</a></li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>8. Regression (Explained & Example)</h3>
+        <ul>
+          <li>Regression shows the relationship between two variables (e.g., study time and grades).</li>
+          <li>Simple linear regression formula: \\( y = mx + b \\), where y = predicted value, m = slope, x = variable, b = intercept.</li>
+          <li>How to do it: Plot your data on a graph, draw the best-fit line, and use the equation to make predictions.</li>
+          <li>Example: If your regression line is Grades = 2.5 × (Study hours) + 80, then studying 4 hours predicts a grade of 90.</li>
+          <li><a href="https://www.mathsisfun.com/data/least-squares-regression.html" target="_blank">Regression Guide: MathIsFun</a></li>
+        </ul>
+      </div>
+      <div class="tip">
+        <b>Best Free Statistics Learning Guides:</b>
+        <ul>
+          <li><a href="https://www.mathsisfun.com/data/" target="_blank">Math Is Fun — Data & Statistics</a></li>
+          <li><a href="https://openstax.org/books/introductory-statistics/pages/1-introduction" target="_blank">OpenStax — Introductory Statistics (full book, free)</a></li>
+          <li><a href="https://www.khanacademy.org/math/statistics-probability" target="_blank">Khan Academy: Statistics and Probability</a></li>
+        </ul>
+      </div>
+    </section>
+    <!-- CODING -->
+    <section class="section" id="coding">
+      <h2>💻 Coding: Start from Zero + Advanced Modules</h2>
+      <div class="cardbox">
+        <h3>What is Coding? Why Learn It?</h3>
+        <ul>
+          <li>Coding (or programming) is telling computers, phones, or devices what to do, step by step. It’s how every app, website, and robot works.</li>
+          <li>Why learn it? Coding teaches problem-solving, logic, and creativity — and it’s useful in almost every modern job!</li>
+          <li>Example: When you click “Like” on a social media post, code tells the site what to do next.</li>
+        </ul>
+      </div>
+      <div class="cardbox">
+        <h3>Step-by-Step: Your First Coding Journey</h3>
+        <ol>
+          <li>
+            <b>Choose a Language</b>
+            <ul>
+              <li>Python — easiest for beginners; used for websites, automation, and AI.</li>
+              <li>HTML, CSS, JavaScript — make real websites and interactive apps.</li>
+              <li>Example: Python is like writing instructions in plain English; HTML is how websites are structured.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Set Up Your Tools</b>
+            <ul>
+              <li>No install needed: Use <a href="https://replit.com/" target="_blank">Replit</a> or <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank">Programiz Online Python Compiler</a> for Python, or <a href="https://codepen.io/" target="_blank">CodePen</a> for web code.</li>
+              <li>On your computer: Download <a href="https://code.visualstudio.com/" target="_blank">VSCode</a> (free editor for all coding).</li>
+              <li>Example: Go to Replit, select Python, and type <code>print("Hello, World!")</code> to see how it works.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Try Your First Program</b>
+            <ul>
+              <li>
+                Python:<br>
+                <pre>print("Hello, World!")</pre>
+              </li>
+              <li>
+                HTML:<br>
+                <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    Hello, World!
+  &lt;/body&gt;
+&lt;/html&gt;
+                </pre>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Practice and Build Simple Projects</b>
+            <ul>
+              <li>Python project ideas: Calculator, “Guess the Number” game, quiz app.</li>
+              <li>Web project ideas: Personal portfolio, to-do list, interactive story.</li>
+              <li>How to start: Follow online tutorials, change the code, and see what happens.</li>
+              <li>Example: Build a “Favorite Movies” website by listing your top films in HTML.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Ask for Help</b>
+            <ul>
+              <li>Use <a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a> or the site’s Q&A section to get help when stuck.</li>
+              <li>Join Discord servers or online forums for students and beginners.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+      <div class="cardbox">
+        <h3>Advanced: Web Apps and Data Science</h3>
+        <ul>
+          <li>Web apps are interactive sites (like Facebook, Google Docs, or online games).</li>
+          <li>Data science uses coding (often Python) to analyze data and discover patterns.</li>
+          <li>Learn more: Try the <a href="https://www.freecodecamp.org/learn" target="_blank">freeCodeCamp curriculum</a> for web and data science projects.</li>
+          <li>Example: Build a quiz web app or a Python program that shows charts based on your grades.</li>
+        </ul>
+      </div>
+      <div class="tip">
+        <b>Best Free Coding Resources:</b>
+        <ul>
+          <li><a href="https://www.w3schools.com/" target="_blank">W3Schools (HTML, CSS, JS, Python, C, Java, and more)</a></li>
+          <li><a href="https://www.freecodecamp.org/" target="_blank">freeCodeCamp (Hands-on coding lessons and projects)</a></li>
+          <li><a href="https://www.geeksforgeeks.org/python-programming-language/" target="_blank">GeeksForGeeks: Python Programming</a></li>
+          <li><a href="https://www.codecademy.com/" target="_blank">Codecademy (interactive coding courses)</a></li>
+        </ul>
+      </div>
+    </section>
+    <div class="about-contact">
+      <b>About LRSAC:</b> Luxury-inspired, complete, and student-friendly learning modules.<br>
+      <b>Contact:</b> <a href="mailto:dhalecaparros21@gmail.com">dhalecaparros21@gmail.com</a>
+      <br>
+      <span style="font-size:0.93em;">© 2025 LRSAC. Created by <b>Dhale Caparros</b></span>
+    </div>
+  </main>
+  <footer>
+    <span>LRSAC — For students, by <b>Dhale Caparros</b>. | Contact: <a href="mailto:dhalecaparros21@gmail.com">dhalecaparros21@gmail.com</a></span>
+  </footer>
+  <script>
+    // Burger menu toggle
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+    const links = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.section');
+    burger.onclick = () => {
+      navMenu.classList.toggle('open');
+      burger.classList.toggle('active');
+    };
+    burger.onkeydown = (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        navMenu.classList.toggle('open');
+        burger.classList.toggle('active');
+      }
+    };
+    // Tab navigation
+    links.forEach(link => {
+      link.onclick = function(e) {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        const tab = link.dataset.tab;
+        sections.forEach(sec => {
+          sec.classList.remove('active');
+          if(sec.id === tab) sec.classList.add('active');
+        });
+        navMenu.classList.remove('open');
+        burger.classList.remove('active');
+        window.scrollTo({top:0, behavior:'smooth'});
+      }
+    });
+  </script>
+</body>
+</html>
